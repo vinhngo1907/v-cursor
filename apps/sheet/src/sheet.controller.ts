@@ -3,10 +3,10 @@ import { SheetService } from './sheet.service';
 
 @Controller()
 export class SheetController {
-    constructor(private readonly sheetService: SheetService) { }
+  constructor(private readonly sheetService: SheetService) {}
 
-    @Get()
-    getHello(): string {
-        return this.sheetService.getHello();
-    }
+  @Get()
+  getHello(): string {
+    return this.sheetService.getHello();
+  }
 }

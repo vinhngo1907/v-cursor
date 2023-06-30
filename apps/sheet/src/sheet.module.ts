@@ -3,8 +3,8 @@ import { SheetController } from './sheet.controller';
 import { SheetService } from './sheet.service';
 
 @Module({
-    imports: [],
-    controllers: [SheetController],
-    providers: [SheetService],
+  imports: [],
+  controllers: [SheetController],
+  providers: [SheetService],
 })
-export class SheetModule { }
+export class SheetModule {}

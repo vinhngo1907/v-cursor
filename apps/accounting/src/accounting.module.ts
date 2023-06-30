@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AccoutingController } from './accouting.controller';
-import { AccoutingService } from './accouting.service';
+import { AccoutingController } from './accounting.controller';
+import { AccoutingService } from './accounting.service';
 
 @Module({
   imports: [],

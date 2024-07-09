@@ -13,3 +13,8 @@ export class WebRegistrationParamDto {
     @ApiProperty({ description: 'Repeat password', nullable: false })
     passwordRepeat: string;
 }
+
+export class FindByIdsDto {
+    @ApiProperty({ description: "Ids of user" })
+    ids: string[];
+}

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SheetController } from './sheet.controller';
-import { SheetService } from './sheet.service';
+import { SheetController } from './messages.dto';
+import { SheetService } from './user.dto';
 
 describe('SheetController', () => {
   let sheetController: SheetController;

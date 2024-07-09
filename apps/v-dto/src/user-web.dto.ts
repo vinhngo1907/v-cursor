@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { SheetController } from './sheet.controller';
-import { SheetService } from './sheet.service';
+import { SheetController } from './messages.dto';
+import { SheetService } from './user.dto';
 
 @Module({
   imports: [],

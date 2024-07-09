@@ -1,10 +1,15 @@
-import { Module } from '@nestjs/common';
-import { SheetController } from './messages.dto';
-import { SheetService } from './user.dto';
+import { ApiProperty } from "@nestjs/swagger";
 
-@Module({
-  imports: [],
-  controllers: [SheetController],
-  providers: [SheetService],
-})
-export class SheetModule {}
+export class WebRegistrationParamDto {
+    @ApiProperty({ description: 'Id of user', nullable: false })
+    login: string;
+
+    @ApiProperty({ description: "Email of user", nullable: false })
+    email: string;
+
+    @ApiProperty({ description: 'Password of user', nullable: false })
+    password: string;
+
+    @ApiProperty({ description: 'Repeat password', nullable: false })
+    passwordRepeat: string;
+}

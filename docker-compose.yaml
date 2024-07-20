@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  # database:
+  #   image: mysql:8.4.0
+  #   hostname: database
+  #   ports:
+  #     - '3306:3306'
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./volume/mysql/data:/var/lib/mysql
+  #     - ./volume/mysql/logs:/var/log/mysql
+  service_1:
+    build:
+      context: .
+      dockerfile: apps/v-user/Dockerfile
+    working_dir: /usr/src/app/v-user
+    env_file:
+      - .env.prod
+    volumes:
+      - ./libs/common:/usr/src/app/libs/common
+      - ./:/usr/src/app
+    command: node app.js
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+  
+  

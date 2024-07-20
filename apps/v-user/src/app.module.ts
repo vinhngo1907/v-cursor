@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AccoutingController } from './app.controller';
-import { AccoutingService } from './app.service';
-import { UsersRepoModule } from './users-repo/users-repo.module';
-import { UsersModule } from './users/users.module';
-import { UsersRepoModule } from './users-repo/users-repo.module';
-import { UsersController } from './users/users.controller';
-import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UsersModule } from './modules/users/users.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UsersRepoModule } from './modules/users-repo/users-repo.module';
+
 
 @Module({
-  imports: [UsersRepoModule, UsersModule],
-  controllers: [AccoutingController, UsersController],
-  providers: [AccoutingService],
+  imports: [UsersRepoModule, UsersModule, ConfigModule],
+  controllers: [AppController],
+  providers: [AppService, ConfigService],
 })
-export class AccoutingModule {}
+export class AppModule { }

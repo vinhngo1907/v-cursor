@@ -28,4 +28,4 @@ export class User {
   analysis: userAnalysisDto;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const UsersSchema = SchemaFactory.createForClass(User);

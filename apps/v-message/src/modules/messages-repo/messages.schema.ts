@@ -1,22 +1,21 @@
 import { HydratedDocument } from "mongoose";
 import { messageAnalysisDto } from 'micro-dto';
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-
 export type MessageDocument = HydratedDocument<Message>;
 
 @Schema()
 export class Message {
-  @Prop({ type: String, required: true, unique: true })
+  @Prop({ type: String })
   login: string;
-  
-  @Prop({ type: String, required: true, unique: true })
-  email: string;
-  
-  @Prop({ type: String, required: true })
-  password: string;
 
-  @Prop({ type: String, required: true })
-  salt: string;
+  @Prop({ type: String })
+  user_id: string;
+
+  @Prop({ type: String })
+  message: string;
+
+  @Prop({ type: String })
+  room_id: string;
 
   @Prop({ type: Boolean })
   active: boolean;
@@ -25,7 +24,7 @@ export class Message {
   created_at: Date;
 
   @Prop({ type: Object })
-  analysis: messageAnalysisDto;
+  analysis?: messageAnalysisDto;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

@@ -10,16 +10,16 @@ services:
   #   volumes:
   #     - ./volume/mysql/data:/var/lib/mysql
   #     - ./volume/mysql/logs:/var/log/mysql
-  service_1:
+  v-user:
     build:
       context: .
       dockerfile: apps/v-user/Dockerfile
-    working_dir: /usr/src/app/v-user
+    working_dir: /home/node/app/v-user
     env_file:
       - .env.prod
     volumes:
-      - ./libs/common:/usr/src/app/libs/common
-      - ./:/usr/src/app
+      - ./libs:/home/node/app/libs
+      - ./:/home/node/app
     command: node app.js
     deploy:
       replicas: 1

@@ -1,6 +1,6 @@
-from infrastructor import getConfig
+from infrastructure import getConfig
 from toxic_module.toxic_service import ToxicService
-from infrastructor.kafka import getKafkaConsumer, getKafkaProducer
+from infrastructure.kafka import getKafkaConsumer, getKafkaProducer
 
 
 def main():

@@ -1,28 +1,29 @@
-from infrastructor import getConfig
-from toxic_module.toxic_service import ToxicService
-from infrastructor.kafka import getKafkaConsumer, getKafkaProducer
+from infrastructure.config import getConfig
+from spam_module.spam_service import SpamService
+from infrastructure.kafka import getKafkaConsumer, getKafkaProducer
 
 
 def main():
     config = getConfig()
     consumer = getKafkaConsumer(config)
     producer = getKafkaProducer(config)
-    toxic_service = ToxicService()
+    spam_service = SpamService()
 
-    print("toxic-service started")
+    print("spam-service started")
 
     for message in consumer:
         try:
             if not message.value.get("message"):
                 continue
-            prediction = toxic_service.is_toxic(message.value.get("message"))
-            if prediction["is_toxic"]:
+            is_spam = spam_service.is_spam(message.value.get("message"))
+            if is_spam:
                 response = {
                     "id": message.value.get("id"),
                     "user_id": message.value.get("user_id"),
-                    "analysis": prediction["prediction"],
+                    "analysis": {"spam": True},
                 }
                 producer.send(config["KAFKA_ANALYSIS_MESSAGE_TOPIC"], response)
+
         except Exception as error:
             print("error", error)
 

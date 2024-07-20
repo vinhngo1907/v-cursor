@@ -7,6 +7,6 @@ setup(
     install_requires=[
         "kafka-python",
         "python-dotenv",
-        "tensorflow==2.11.0",
+        "tensorflow==2.11.1",
     ],
 )

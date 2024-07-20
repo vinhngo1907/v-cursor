@@ -1,0 +1,23 @@
+import { userAnalysisDto } from "@libs/v-dto";
+
+export type saveAnalysisDto = {
+    id: string;
+    analysis: userAnalysisDto;
+    active?: boolean;
+}
+
+export type findActivateDto = {
+    id?: string;
+    login?: string;
+}
+
+export type generatedPasswordDto = {
+    password: string;
+    salt: string;
+}
+
+export type isMatchPasswordDto = {
+    passwordTyped: string;
+    salt: string;
+    password: string;
+}

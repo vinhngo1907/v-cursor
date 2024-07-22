@@ -8,6 +8,6 @@ setup(
         "kafka-python",
         "python-dotenv",
         "joblib",
-        "scikit-learn==1.0.2",
+        "scikit-learn==1.5.0",
     ],
 )

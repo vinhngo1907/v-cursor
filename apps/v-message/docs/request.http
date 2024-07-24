@@ -1,0 +1,103 @@
+@serverUrl = https://mern-v-chat-server.onrender.com
+@localUrl = http://localhost:5001
+
+GET {{serverUrl}}
+###
+GET {{localUrl}}
+###
+
+POST http://localhost:5001/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "vinhngo",
+  "password": "vinhngo1999",
+  "email": "vinhngotrung1999@gmail.com",
+  "fullname": "Ngô Trung Vinh"
+}
+
+###
+
+POST {{serverUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "account": "vinhngo",
+  "password": "vinhngo1999"
+}
+
+###
+
+POST http://localhost:5001/api/auth/activate-account
+Content-Type: application/json
+
+{
+  "active_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6Ik5nw7QgVHJ1bmcgVmluaCIsInVzZXJuYW1lIjoidmluaG5nbyIsImVtYWlsIjoidmluaG5nb3RydW5nMTk5OUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMiQ3bi9NLmgxRWxTT29adDZkQmpFM2RlTTlFZnZuUlBWOGxJUC90dGJLRTNGS1d4ZzAxU25zaSIsImlhdCI6MTY3MDEzOTUwMiwiZXhwIjoxNjcwMTM5ODAyfQ.6hAeA7T-meLg6QbwJnTN__F1CWeopb_WvClut1c_6wI"
+}
+
+###
+POST http://localhost:5001/api/auth/refresh-token
+
+###
+
+PATCH http://localhost:5002/api/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzE5NDAxMjUsImV4cCI6MTY3MjAyNjUyNX0.WSgHayf2X66DM4u2AZtf5saiifvfjW7Qx_f8bwfxATA
+
+{
+  "title": "React",
+  "description": "React",
+  "url": "react.com",
+  "status": "TO LEARN"
+}
+###
+
+GET http://localhost:5001/api/user/search?page=1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzE5NDAxMjUsImV4cCI6MTY3MjAyNjUyNX0.WSgHayf2X66DM4u2AZtf5saiifvfjW7Qx_f8bwfxATA
+###
+
+GET http://localhost:5001/api/message
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzE5NDAxMjUsImV4cCI6MTY3MjAyNjUyNX0.WSgHayf2X66DM4u2AZtf5saiifvfjW7Qx_f8bwfxATA
+###
+
+POST http://localhost:5001/api/message
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzE5NDAxMjUsImV4cCI6MTY3MjAyNjUyNX0.WSgHayf2X66DM4u2AZtf5saiifvfjW7Qx_f8bwfxATA
+Content-type: application/json
+
+{
+  "recipient":"638c4f0892b27b7ee06c1b7f",
+  "sender":"63a47219e7a065472ffdbd9a",
+  "text":"new mess"
+}
+###
+
+PUT http://localhost:5000/api/message/6061c25ac2533d41dcae2b19
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzE5NDAxMjUsImV4cCI6MTY3MjAyNjUyNX0.WSgHayf2X66DM4u2AZtf5saiifvfjW7Qx_f8bwfxATA
+
+{
+  "title": "Vue",
+  "description": "VUEEEEE",
+  "url": "https://vuejs.org",
+  "status": "LEARNING"
+}
+
+###
+
+DELETE http://localhost:5001/api/conversation/63a47219e7a065472ffdbd9a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzE5NDAxMjUsImV4cCI6MTY3MjAyNjUyNX0.WSgHayf2X66DM4u2AZtf5saiifvfjW7Qx_f8bwfxATA
+Content-type: application/json
+
+###
+
+GET http://localhost:5001/api/conversation
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzE5NDAxMjUsImV4cCI6MTY3MjAyNjUyNX0.WSgHayf2X66DM4u2AZtf5saiifvfjW7Qx_f8bwfxATA
+###
+
+GET http://localhost:5001/error
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzE5NDAxMjUsImV4cCI6MTY3MjAyNjUyNX0.WSgHayf2X66DM4u2AZtf5saiifvfjW7Qx_f8bwfxATA
+###
+
+GET http://localhost:5001/api/message/63a47219e7a065472ffdbd9a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzIxNTUxNjksImV4cCI6MTY3MjI0MTU2OX0.DIVq6Jej-wvQjD5Gcyol5X0pTAYakfREy4d_DEW7sbQ

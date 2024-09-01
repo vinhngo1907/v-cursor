@@ -8,7 +8,12 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "sourceMap": true,
+    "paths": {
+      "apps/*": ["./apps/*"],
+      "libs/*": ["./libs/*"]
+    },
     "outDir": "./dist",
+    "resolveJsonModule": true,
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,

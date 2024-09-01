@@ -54,4 +54,18 @@ export class UsersRepoService {
             }
         })
     }
+
+    /**
+   * Find user by login
+   */
+    async findByLogin(param: { login: string }): Promise<userDto | undefined> {
+        if (!param.login) {
+            return;
+        }
+
+        const { login } = param;
+        const user = await this.userModel.findOne({ login });
+
+        return this.getUserDto(user);
+    }
 }

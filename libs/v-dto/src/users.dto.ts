@@ -21,8 +21,9 @@ export type repoRegistrationParamDto = {
 	email: string;
 	password: string;
 	passwordRepeat: string;
+	salt: string;
 	active: boolean;
-	create_at: Date;
+	created_at: Date;
 }
 
 export type userDto = commonUserData & {

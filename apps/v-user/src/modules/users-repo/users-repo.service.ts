@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './users-repo.schema';
 import { Model } from 'mongoose';
 import { saveAnalysisDto } from 'src/dto/index.dto';
-import { userDto } from '@libs/v-dto';
+import { repoRegistrationParamDto, userDto } from '@libs/v-dto';
 
 @Injectable()
 export class UsersRepoService {
@@ -66,6 +66,13 @@ export class UsersRepoService {
         const { login } = param;
         const user = await this.userModel.findOne({ login });
 
+        return this.getUserDto(user);
+    }
+
+    async registration(
+        registrationDto: repoRegistrationParamDto,
+    ): Promise<userDto | undefined> {
+        const user = await this.userModel.create(registrationDto);
         return this.getUserDto(user);
     }
 }

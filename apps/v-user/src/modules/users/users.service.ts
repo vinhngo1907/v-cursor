@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersHelper } from './users.helper';
-import { messageAnalysisDto, userAnalysisDto } from '@libs/v-dto';
+import { messageAnalysisDto, userAnalysisDto, WebLoginParamDto, WebUserDto } from '@libs/v-dto';
 import { UsersRepoService } from '../users-repo/users-repo.service';
 import { saveAnalysisDto } from 'src/dto/index.dto';
 
@@ -51,5 +51,36 @@ export class UsersService {
         }
 
         await this.usersRepoService.saveAnalysis(updateParam);
+    }
+
+    async login(loginDto: WebLoginParamDto): Promise<WebUserDto> {
+        if (!loginDto.login) {
+            throw new BadRequestException('User not found');
+        }
+
+        const user = await this.usersRepoService.findByLogin(loginDto);
+        if (!user) {
+            throw new UnauthorizedException('User not found')
+        }
+
+        if (!user.active) {
+            throw new BadRequestException('User is blocked')
+        }
+
+        const isMatch = await this.usersHelper.isMatchPassword({
+            passwordTyped: loginDto.password,
+            salt: user.salt,
+            password: user.password
+        });
+
+        if (!isMatch) {
+            throw new BadRequestException("Password invalid");
+        }
+
+        // const { id, login, email, active, created_at } = user;
+        delete user.password;
+        delete user.analysis;
+        delete user.salt;
+        return user;
     }
 }

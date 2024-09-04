@@ -1,18 +1,24 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UsersController } from './users.controller';
+import { HttpService } from '@nestjs/axios';
+import {
+    BadRequestException,
+    Injectable,
+    InternalServerErrorException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
-describe('Users Controller', () => {
-    let controller: UsersController;
+export class UsersRepo {
+    constructor(
+        private configService: ConfigService,
+        private readonly httpService: HttpService
+    ) { }
 
-    beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
-            controllers: [UsersController],
-        }).compile();
+    errorMessage: string = 'Oops something went wrong';
 
-        controller = module.get<UsersController>(UsersController);
-    });
+    async usersRequest(method: string, url: string, param?: any) {
+        try {
 
-    it('should be defined', () => {
-        expect(controller).toBeDefined();
-    });
-});
+        } catch (error) {
+
+        }
+    }
+}

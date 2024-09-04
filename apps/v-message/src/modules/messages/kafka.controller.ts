@@ -50,7 +50,7 @@ export class KafkaController implements OnModuleInit, OnModuleDestroy {
 		try {
 			const messageValue: { user_id: string, analysis: messageAnalysisDto } = JSON.parse(params.value.toString());
 			const { user_id: id, analysis } = messageValue;
-			await this.usersService.receiveAnalysis({ id, analysis });
+			await this.messagesService.receiveAnalysis({ id, analysis });
 		} catch (error) {
 			this.logger.error(error);
 		}

@@ -1,15 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSubscriberDto } from './messages.dto';
-import { SubscriberRepository } from './subscriber.respository';
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class SubscriberService {
-    constructor(private readonly subscriberRepository: SubscriberRepository) { }
-    async addSubscriber(CreateSubscriberDto: CreateSubscriberDto) {
-        return this.subscriberRepository.create(CreateSubscriberDto)
-    }
-
-    async getAllSubscriber() {
-        return this.subscriberRepository.getAll();
-    }
+export class MessagesService {
+    constructor(){}
 }

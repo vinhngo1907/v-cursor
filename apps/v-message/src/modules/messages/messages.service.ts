@@ -9,14 +9,12 @@ export class MessagesService {
     constructor(
         private configService: ConfigService,
         private messagesHelper : UsersHelper,
-        // private messagesRepoService: UsersRepoService
     ){}
 
     async receiveAnalysis(params: {
         id: string,
         analysis: messageAnalysisDto
     }):Promise<any>{
-        const {id, analysis} = params;
-        // const user = await this
+        
     }
 }

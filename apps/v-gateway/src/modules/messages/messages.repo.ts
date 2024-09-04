@@ -4,12 +4,19 @@ import { Model } from 'mongoose';
 import { Subscriber } from "./messages.joi";
 import { ObjectId } from 'mongodb';
 import { CreateSubscriberDto } from './messages.dto';
+import { ConfigService } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
 @Injectable()
-export class SubscriberRepository {
+export class MessagesRepo {
     constructor(
         @InjectModel('Subscriber')
         private readonly subscriber: Model<Subscriber>,
+        private configSerivce: ConfigService,
+        private httpService: HttpService
     ) { }
+
+    errorMessage: string = 'Oops something went wrong';
+    
     async create(doc): Promise<any> {
         doc._id = new ObjectId();
         return await new this.subscriber(doc).save();

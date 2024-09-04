@@ -1,10 +1,12 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-// import {  } from './subscriber.model';
+import { MessagesController } from './messages.controller';
+import { MessagesService } from './messages.service';
 
 @Module({
-//   imports: [PrismaModule],
-//   controllers: [DeviceController],
-//   providers: [DeviceService],
-//   exports: [DeviceService]
+    imports: [HttpModule],
+    controllers: [MessagesController],
+      providers: [MessagesService],
+      exports: [MessagesService]
 })
-export class MessagesModule {}
+export class MessagesModule { }

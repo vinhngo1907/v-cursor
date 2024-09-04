@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersHelper } from './users.helper';
-import { messageAnalysisDto, userAnalysisDto, WebLoginParamDto, WebUserDto } from '@libs/v-dto';
+import { messageAnalysisDto, userAnalysisDto, userDto, WebLoginParamDto, WebRegistrationParamDto, WebUserDto } from '@libs/v-dto';
 import { UsersRepoService } from '../users-repo/users-repo.service';
 import { saveAnalysisDto } from 'src/dto/index.dto';
 
@@ -82,5 +82,21 @@ export class UsersService {
         delete user.analysis;
         delete user.salt;
         return user;
+    }
+
+    async registratiion(registerDto: WebRegistrationParamDto): Promise<WebUserDto> {
+        const { password, salt } = await this.usersHelper.generatePassword(
+            registerDto.password,
+        );
+
+        const { id, login, email, active, created_at } =
+            await this.usersRepoService.registration({
+                ...registerDto,
+                password,
+                salt,
+                active: true,
+                created_at: new Date(),
+            });
+        return { id, login, email, active, created_at };
     }
 }

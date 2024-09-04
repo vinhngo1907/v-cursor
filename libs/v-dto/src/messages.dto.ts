@@ -6,14 +6,14 @@ export type messageAnalysisDto = {
 	threat?: boolean;
 	insult?: boolean;
 	identity_hate?: boolean;
-}
+};
 
 export type messageDto = {
 	id?: string;
 	uuid: string;
-	message_id: string;
+	message: string;
 	room_id: string;
 	user_id: string;
 	created_at?: Date;
 	analysis?: messageAnalysisDto;
-}
+};

@@ -1,14 +1,14 @@
 import { Controller, Logger, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Kafka, Producer, Consumer, KafkaMessage } from "kafkajs";
-import { UsersService } from "./messages.service";
+import { MessagesService } from "./messages.service";
 import { messageAnalysisDto } from "@libs/v-dto";
 
 @Controller()
 export class KafkaController implements OnModuleInit, OnModuleDestroy {
 	constructor(
 		private configService: ConfigService,
-		private usersService: UsersService
+		private messagesService: MessagesService,
 	) { }
 
 	private readonly logger = new Logger(KafkaController.name);

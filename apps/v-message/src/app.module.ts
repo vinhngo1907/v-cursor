@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MessagesModule } from './modules/messages/messages.module';
@@ -25,7 +23,7 @@ import { MessagesRepoModule } from './modules/messages-repo/messages-repo.module
         MessagesModule,
         MessagesRepoModule
     ],
-    controllers: [AppController],
-    providers: [AppService],
+    controllers: [],
+    providers: [],
 })
 export class AppModule { }

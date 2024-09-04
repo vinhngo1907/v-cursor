@@ -1,20 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersHelper } from './messages.helper';
-import { messageAnalysisDto } from '@libs/v-dto';
+import { messageAnalysisDto, PrivateRoomQueryDto, RoomDataDto } from '@libs/v-dto';
+import { MessageWebDto, RoomWebDto } from '@libs/v-dto';
+import { MessagesRepoService } from '../messages-repo/messages-repo.service';
 // import { UsersRepoService } from '../users-repo/users-repo.service';
 
 @Injectable()
 export class MessagesService {
     constructor(
-        private configService: ConfigService,
-        private messagesHelper : UsersHelper,
-    ){}
+        private messagesRepoService: MessagesRepoService,
+    ) { }
 
     async receiveAnalysis(params: {
         id: string,
         analysis: messageAnalysisDto
-    }):Promise<any>{
-        
+    }): Promise<any> {
+
+    }
+
+    async receiveMessage(params: MessageWebDto) {
+        const { id, user_id } = params;
+        const messageRoom: RoomWebDto = await this.messagesRepoService.getUserRoom({
+            id, user_id
+        });
+        if (!messageRoom) {
+            throw new ForbiddenException(`Room ${id} forbidden for user ${user_id}`);
+        }
+        const newMessage = await this.messagesRepoService.saveMessage(params);
+        return newMessage;
     }
 }

@@ -26,7 +26,6 @@
         "@nestjs/mongoose": "^10.0.0",
         "@nestjs/platform-express": "^10.0.5",
         "@nestjs/swagger": "^7.1.1",
-        "micro-dto": "github:Igorok/micro-dto#main",
         "express-basic-auth": "^1.2.1",
         "joi": "^17.9.2",
         "kafkajs": "^2.2.4",

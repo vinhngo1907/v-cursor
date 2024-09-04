@@ -1,63 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { UsersCreateDto, UsersUpdateDto } from './users.dto';
-import { User } from './users.entity';
-import { Repository } from 'typeorm'; import { InjectRepository } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class UsersService {
     constructor(
-        @InjectRepository(User)
-        private userRepository: Repository<User>) { }
+        private configService: ConfigService,
+        private httpService: HttpService
+    ){}
 
-    async getUser(): Promise<User[]> {
-        const users = await this.userRepository.find();
-
-        return users;
+    async getUser(): Promise<any> {
+        return true;
     }
 
-    async createUser(createUser: UsersCreateDto): Promise<User> {
-        const newUser = await this.userRepository.create({
-            ...createUser
-        });
-        return await this.userRepository.save(newUser);
+    async createUser(createUser: UsersCreateDto): Promise<any> {
+       return true;
     }
 
     async getAllUsers() {
-        return this.userRepository.find({});
+        return true;
     }
 
-    async findUserById(id: number): Promise<User> {
-        const user = await this.userRepository.findOne({
-            where: {
-                id
-            }
-        });
-        return user;
-    }
-
-    async deleteUserById(id: number): Promise<String> {
-        try {
-            await this.userRepository.delete(id);
-            return "Deleted user in successfully";
-        } catch (error) {
-            console.log(error);
-            return 'Delete User Failed';
-        }
-    }
-
-    async updateUserById(id: number, usersUpdateDto: UsersUpdateDto) {
-        const { name, age } = usersUpdateDto;
-        const user = await this.userRepository.findOne({
-            where: {
-                id
-            }
-        });
-        
-        user.name = name;
-        user.age = age;
-
-        this.userRepository.save(user);
-
-        return user;
+    async findUserById(id: number): Promise<any> {
+       return true;
     }
 }

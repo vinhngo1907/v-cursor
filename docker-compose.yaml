@@ -10,7 +10,7 @@ services:
   #   volumes:
   #     - ./volume/mysql/data:/var/lib/mysql
   #     - ./volume/mysql/logs:/var/log/mysql
-  v-user:
+  v-users:
     build:
       context: .
       dockerfile: apps/v-user/Dockerfile

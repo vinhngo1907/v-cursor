@@ -1,9 +1,9 @@
 import { Controller } from '@nestjs/common';
-import { SubscriberService } from './subscriber.service';
+import { SubscriberService } from './messages.service';
 import {
     MessagePattern, Payload,
 } from '@nestjs/microservices';
-import { CreateSubscriberDto } from './subscriber.dto';
+import { CreateSubscriberDto } from './messages.dto';
 
 @Controller('subscriber')
 export class SubscriberController {

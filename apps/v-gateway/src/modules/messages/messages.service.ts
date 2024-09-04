@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSubscriberDto } from './subscriber.dto';
+import { CreateSubscriberDto } from './messages.dto';
 import { SubscriberRepository } from './subscriber.respository';
 
 @Injectable()

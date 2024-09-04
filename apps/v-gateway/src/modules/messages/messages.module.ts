@@ -7,4 +7,4 @@ import { Module } from '@nestjs/common';
 //   providers: [DeviceService],
 //   exports: [DeviceService]
 })
-export class SubscriberModule {}
+export class MessagesModule {}

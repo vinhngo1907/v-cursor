@@ -1,10 +1,10 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class WebRegistrationParamDto {
     @ApiProperty({ description: 'Id of user', nullable: false })
     login: string;
 
-    @ApiProperty({ description: "Email of user", nullable: false })
+    @ApiProperty({ description: 'Email of user', nullable: false })
     email: string;
 
     @ApiProperty({ description: 'Password of user', nullable: false })
@@ -21,6 +21,7 @@ export class WebLoginParamDto {
     @ApiProperty({ description: 'Password of user', nullable: false })
     password: string;
 }
+
 export class WebUserDto {
     @ApiProperty({ description: 'Id of user', nullable: false })
     id: string;
@@ -28,31 +29,32 @@ export class WebUserDto {
     @ApiProperty({ description: 'Login of user', nullable: false })
     login: string;
 
-    @ApiProperty({ description: "Email of user", nullable: false })
+    @ApiProperty({ description: 'Email of user', nullable: false })
     email: string;
 
-    @ApiProperty({ description: 'Password of user', nullable: false })
-    password: string;
+    @ApiProperty({ description: 'Flag of user active', nullable: false })
+    active: boolean;
 
     @ApiProperty({ description: 'Date of user creation', nullable: false })
     created_at: Date;
 }
 
 export class WebUsersAllDto {
-    @ApiProperty({ description: "List of Users" })
+    @ApiProperty({ description: 'List of users' })
     users: WebUserDto[];
 
-    @ApiProperty({ description: "Count of users" })
+    @ApiProperty({ description: 'Count of users' })
     count: number;
-}
-export class FindByIdsDto {
-    @ApiProperty({ description: "Ids of user" })
-    ids: string[];
 }
 
 export class FindByIdDto {
-    @ApiProperty({ description: "Id of user" })
-    ids: string;
+    @ApiProperty({ description: 'Id of user' })
+    id: string;
+}
+
+export class FindByIdsDto {
+    @ApiProperty({ description: 'Ids of user' })
+    ids: string[];
 }
 
 export class FindAllDto {

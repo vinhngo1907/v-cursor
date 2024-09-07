@@ -2,8 +2,6 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {
-    FindAllDto,
-    FindByIdsDto,
     userDto,
     repoRegistrationParamDto,
     //   usersListDto,
@@ -14,7 +12,7 @@ import { User, UserDocument } from './users-repo.schema';
 @Injectable()
 export class UsersRepoService {
     constructor(
-        @InjectModel(User.name) private userModel: Model<UserDocument>
+        @InjectModel(User.name) private userModel: Model <UserDocument>
     ) { }
 
     getUserDto(user: UserDocument | undefined): userDto | undefined {

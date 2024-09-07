@@ -15,7 +15,12 @@ export class KafkaController implements OnModuleInit, OnModuleDestroy {
 
 	private readonly kafka: Kafka = new Kafka({
 		clientId: 'user_service',
-		brokers: [this.configService.get<string>('KAFKA_URI')]
+		brokers: [this.configService.get<string>('KAFKA_URI')],
+		sasl: {
+			mechanism: this.configService.get<string>('KAFKA_MECHANISM'),
+			username: this.configService.get<string>('KAFKA_USER'),
+			password: this.configService.get<string>('KAFKA_PASS'),
+		} as any,
 	});
 
 	private readonly analysisConsumer: Consumer = this.kafka.consumer({

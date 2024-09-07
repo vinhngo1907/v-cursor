@@ -1,20 +1,13 @@
 @serverUrl = https://mern-v-chat-server.onrender.com
-@localUrl = http://localhost:5001
+@localUrl = http://localhost:3003
 
 GET {{serverUrl}}
 ###
 GET {{localUrl}}
 ###
 
-POST http://localhost:5001/api/auth/register
+GET {{localUrl}}/users/get-private-room?userIds=1
 Content-Type: application/json
-
-{
-  "username": "vinhngo",
-  "password": "vinhngo1999",
-  "email": "vinhngotrung1999@gmail.com",
-  "fullname": "Ngô Trung Vinh"
-}
 
 ###
 
@@ -28,7 +21,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:5001/api/auth/activate-account
+POST {{localUrl}}/auth/activate-account
 Content-Type: application/json
 
 {

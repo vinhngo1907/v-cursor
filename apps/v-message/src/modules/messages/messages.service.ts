@@ -3,11 +3,13 @@ import { ConfigService } from '@nestjs/config';
 import { messageAnalysisDto, PrivateRoomQueryDto, RoomDataDto } from '@libs/v-dto';
 import { MessageWebDto, RoomWebDto } from '@libs/v-dto';
 import { MessagesRepoService } from '../messages-repo/messages-repo.service';
+import { RoomDocument } from '../messages-repo/room.schema';
 // import { UsersRepoService } from '../users-repo/users-repo.service';
 
 @Injectable()
 export class MessagesService {
     constructor(
+
         private messagesRepoService: MessagesRepoService,
     ) { }
 
@@ -28,5 +30,23 @@ export class MessagesService {
         }
         const newMessage = await this.messagesRepoService.saveMessage(params);
         return newMessage;
+    }
+
+    async getPrivateRoom(
+        param: PrivateRoomQueryDto,
+    ): Promise<RoomDataDto | undefined> {
+        let privateRoom = await this.messagesRepoService.getPrivateRoom(param);
+
+        if (!privateRoom)
+            privateRoom = await this.messagesRepoService.createPrivateRoom(param);
+
+        const messages = await this.messagesRepoService.getRoomMessages({
+            roomId: privateRoom.id,
+        });
+
+        return {
+            room: privateRoom,
+            messages: messages?.reverse(),
+        };
     }
 }

@@ -8,9 +8,11 @@ import { ConfigService } from '@nestjs/config';
 import { UsersRepoService } from '../users-repo/users-repo.service';
 
 @Module({
+	imports: [UsersRepoModule],
 	controllers: [UsersController, KafkaController],
-	providers: [UsersService, UsersHelper, ConfigService, UsersRepoService],
+	providers: [UsersService, UsersHelper, ConfigService,
+		UsersRepoService
+	],
 	exports: [UsersService],
-	imports: [UsersRepoModule]
 })
 export class UsersModule { }

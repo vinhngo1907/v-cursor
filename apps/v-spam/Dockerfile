@@ -1,6 +1,6 @@
 FROM python=3.10
 
-ENV KAFKA_URI=localhost:9094
+ENV KAFKA_URI=localhost:9092
 
 WORKDIR /home/app
 

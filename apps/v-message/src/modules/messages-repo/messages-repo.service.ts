@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { Room, RoomDocument } from './room.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Message, MessageDocument } from './messages.schema';
-import { MessageWebDto, RoomWebDto, UserRoomQueryDto } from '@libs/v-dto';
+import { MessageWebDto, PrivateRoomQueryDto, RoomWebDto, UserRoomQueryDto } from '@libs/v-dto';
 
 @Injectable()
 export class MessagesRepoService {
@@ -23,7 +23,26 @@ export class MessagesRepoService {
         }
     }
 
-    async getPrivateRoom(params: UserRoomQueryDto): Promise<void> { }
+    async getPrivateRoom(params: PrivateRoomQueryDto): Promise<RoomWebDto | undefined> {
+        const room: RoomDocument = await this.roomModel.findOne({
+            user_ids: { $all: params.userIds },
+            type: "private"
+        });
+
+        return room ? this.getWebRoomDto(room) : room;
+    }
+
+    async createPrivateRoom(params: PrivateRoomQueryDto): Promise<RoomWebDto | undefined> {
+        const room: RoomDocument = await this.roomModel.create({
+            type: "private",
+            created_at: new Date(),
+            user_ids: params.userIds
+        });
+
+        await room.save();
+
+        return this.getWebRoomDto(room);
+    }
 
     async saveMessage(param: MessageWebDto): Promise<MessageWebDto | undefined> {
         const { uuid, message, room_id, user_id, created_at } = param;
@@ -57,4 +76,18 @@ export class MessagesRepoService {
         return room ? this.getWebRoomDto(room) : room;
     }
 
+    async getRoomMessages(param: {
+        roomId: string;
+      }): Promise<MessageWebDto[] | undefined> {
+        const messages: MessageWebDto[] = await this.messageModel
+          .find({ room_id: param.roomId })
+          .sort({ _id: -1 })
+          .limit(100);
+    
+        return messages?.length
+          ? messages.map((message: MessageDocument) =>
+              this.getWebMessageDto(message),
+            )
+          : [];
+      }
 }

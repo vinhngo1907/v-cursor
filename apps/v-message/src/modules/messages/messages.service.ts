@@ -4,7 +4,6 @@ import { messageAnalysisDto, PrivateRoomQueryDto, RoomDataDto } from '@libs/v-dt
 import { MessageWebDto, RoomWebDto } from '@libs/v-dto';
 import { MessagesRepoService } from '../messages-repo/messages-repo.service';
 import { RoomDocument } from '../messages-repo/room.schema';
-// import { UsersRepoService } from '../users-repo/users-repo.service';
 
 @Injectable()
 export class MessagesService {

@@ -10,9 +10,10 @@ export class UsersController {
     constructor(
         private readonly messagesService: MessagesService
     ) { }
+    
     @Get("/get-private-room")
     @ApiOperation({ summary: "Get user by id" })
-    @ApiTags("/users")
+    @ApiTags("/Users")
     @ApiResponse({
         status: HttpStatus.OK,
         description: "Status",

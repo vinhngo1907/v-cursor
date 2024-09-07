@@ -1,16 +1,21 @@
+import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from './users-repo.schema';
-import { Model } from 'mongoose';
+import {
+    userDto,
+    repoRegistrationParamDto,
+    //   usersListDto,
+} from '@libs/v-dto';
 import { saveAnalysisDto } from 'src/dto/index.dto';
-import { repoRegistrationParamDto, userDto } from '@libs/v-dto';
+import { User, UserDocument } from './users-repo.schema';
 
 @Injectable()
 export class UsersRepoService {
     constructor(
-        @InjectModel(User.name) private userModel: Model<UserDocument>
+        @InjectModel(User.name) private userModel: Model <UserDocument>
     ) { }
-    async getUserDto(user: UserDocument | undefined): Promise<userDto | undefined> {
+
+    getUserDto(user: UserDocument | undefined): userDto | undefined {
         if (user) {
             const {
                 _id,
@@ -35,29 +40,17 @@ export class UsersRepoService {
             };
         }
     }
+
     async findById(param: { id: string }): Promise<userDto | undefined> {
         if (!param.id) {
             return;
         }
-
         const { id } = param;
         const user = await this.userModel.findOne({ _id: id });
 
         return this.getUserDto(user);
     }
-    async saveAnalysis(param: saveAnalysisDto): Promise<any> {
-        const { id, analysis, active } = param;
-        await this.userModel.updateOne({ _id: id }, {
-            $set: {
-                analysis,
-                ...(typeof active === "boolean" ? { active } : {})
-            }
-        })
-    }
 
-    /**
-   * Find user by login
-   */
     async findByLogin(param: { login: string }): Promise<userDto | undefined> {
         if (!param.login) {
             return;
@@ -73,6 +66,24 @@ export class UsersRepoService {
         registrationDto: repoRegistrationParamDto,
     ): Promise<userDto | undefined> {
         const user = await this.userModel.create(registrationDto);
+
         return this.getUserDto(user);
+    }
+
+
+    /**
+     * Save analysis of messages
+     */
+    async saveAnalysis(param: saveAnalysisDto): Promise<any> {
+        const { id, analysis, active } = param;
+        await this.userModel.updateOne(
+            { _id: id },
+            {
+                $set: {
+                    analysis,
+                    ...(typeof active === 'boolean' ? { active } : {}),
+                },
+            },
+        );
     }
 }

@@ -4,15 +4,20 @@ import { InjectModel } from '@nestjs/mongoose';
 import {
     userDto,
     repoRegistrationParamDto,
-    //   usersListDto,
+    FindAllDto,
+    WebUsersAllDto,
+    FindByIdDto,
+    WebUserDto,
+    FindByIdsDto,
+    userListDto,
 } from '@libs/v-dto';
-import { saveAnalysisDto } from 'src/dto/index.dto';
+import { findActiveUserDto, saveAnalysisDto } from 'src/dto/index.dto';
 import { User, UserDocument } from './users-repo.schema';
 
 @Injectable()
 export class UsersRepoService {
     constructor(
-        @InjectModel(User.name) private userModel: Model <UserDocument>
+        @InjectModel(User.name) private userModel: Model<UserDocument>
     ) { }
 
     getUserDto(user: UserDocument | undefined): userDto | undefined {
@@ -41,7 +46,7 @@ export class UsersRepoService {
         }
     }
 
-    async findById(param: { id: string }): Promise<userDto | undefined> {
+    async findById(param: FindByIdDto): Promise<userDto | undefined> {
         if (!param.id) {
             return;
         }
@@ -70,10 +75,6 @@ export class UsersRepoService {
         return this.getUserDto(user);
     }
 
-
-    /**
-     * Save analysis of messages
-     */
     async saveAnalysis(param: saveAnalysisDto): Promise<any> {
         const { id, analysis, active } = param;
         await this.userModel.updateOne(
@@ -85,5 +86,56 @@ export class UsersRepoService {
                 },
             },
         );
+    }
+
+    async findAll(param: FindAllDto): Promise<WebUsersAllDto | undefined> {
+        const {
+            skip = 0,
+            limit = 2,
+            sortAsc = 'asc',
+            login = '',
+            excludeIds,
+        } = param;
+
+        const sortField = param.sortField === "id" || !param.sortField ? "_id" : param.sortField
+        const users = await this.userModel.find({
+            active: true,
+            ...(login ? { $text: { $search: login } } : {}),
+            ...(excludeIds ? { _id: { $nin: excludeIds } } : {}),
+        }).sort({ [sortField]: sortAsc === "asc" ? 1 : -1 }).skip(skip).limit(limit);
+
+        const count = await this.userModel.count({
+            active: true
+        });
+
+        return {
+            users: users.map(u => this.getUserDto(u)), count
+        };
+    }
+
+    async findActiveUser(param: findActiveUserDto): Promise<userDto | undefined> {
+        const { id, login } = param;
+        if (!id && !login) {
+            return undefined;
+        }
+
+        const user = await this.userModel.findOne({
+            ...(id ? { _id: id } : {}),
+            ...(login ? { login } : {}),
+            active: true
+        });
+        return this.getUserDto(user);
+    }
+
+    async findByIds(param: FindByIdsDto): Promise<userListDto> {
+        const users = await this.userModel.find({
+            active: true,
+            _id: { $in: param.ids }
+        });
+
+        return {
+            users: users.map(u => this.getUserDto(u)),
+            count: users.length
+        }
     }
 }

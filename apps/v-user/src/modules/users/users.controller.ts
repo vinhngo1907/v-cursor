@@ -1,9 +1,9 @@
-import { BadRequestException, Body, Controller, HttpStatus, Post, UsePipes } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpStatus, Param, Post, Query, UsePipes } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { WebLoginParamDto, WebRegistrationParamDto, WebUserDto } from '@libs/v-dto';
+import { FindAllDto, FindByIdDto, FindByIdsDto, WebLoginParamDto, WebRegistrationParamDto, WebUserDto, WebUsersAllDto } from '@libs/v-dto';
 import { JoiValidationPipe } from 'src/pipes/joi.validation.pipe';
-import { loginJoi, registrationJoi } from './users.joi';
+import { findAllJoi, findByIdJoi, loginJoi, registrationJoi, findByIdsJoi } from './users.joi';
 
 @Controller('users')
 export class UsersController {
@@ -33,7 +33,7 @@ export class UsersController {
     @UsePipes(new JoiValidationPipe(registrationJoi))
     async register(@Body() body: WebRegistrationParamDto): Promise<WebUserDto> {
         try {
-            return this.usersService.registratiion(body);
+            return this.usersService.registration(body);
         } catch (error) {
             if (error?.code === 11000) {
                 throw new BadRequestException('Duplicate user', {
@@ -49,4 +49,49 @@ export class UsersController {
         }
     }
 
+    @Get("/find-all")
+    @ApiTags("Users")
+    @ApiOperation({ summary: "List All Users" })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: 'Success',
+        type: WebUsersAllDto
+    })
+    @UsePipes(new JoiValidationPipe(findAllJoi))
+    async getAll(@Query() params: FindAllDto): Promise<WebUsersAllDto> {
+        if (params.excludeIds && typeof params.excludeIds === 'string') {
+            params.excludeIds = [params.excludeIds];
+        }
+        return this.usersService.findAll(params);
+    }
+
+    @Get("/find-one/:id")
+    @ApiTags("Users")
+    @ApiOperation({ summary: "Get One User" })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: 'Success',
+        type: WebUserDto
+    })
+    @UsePipes(new JoiValidationPipe(findByIdJoi))
+    findOne(@Param() params: FindByIdDto): Promise<WebUserDto> {
+        return this.usersService.findById(params);
+    }
+
+    @Get('/find-by-ids')
+    @ApiTags('Users')
+    @ApiOperation({ summary: 'List of users by ids' })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: 'Success',
+        type: WebUsersAllDto,
+    })
+    @UsePipes(new JoiValidationPipe(findByIdsJoi))
+    findByIds(@Query() params: FindByIdsDto): Promise<WebUsersAllDto> {
+        if (params.ids && typeof params.ids === 'string') {
+            params.ids = [params.ids];
+        }
+
+        return this.usersService.findByIds(params);
+    }
 }

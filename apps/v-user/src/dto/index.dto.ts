@@ -6,7 +6,7 @@ export type saveAnalysisDto = {
     active?: boolean;
 }
 
-export type findActivateDto = {
+export type findActiveUserDto = {
     id?: string;
     login?: string;
 }

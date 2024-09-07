@@ -1,5 +1,5 @@
 import { HydratedDocument } from "mongoose";
-import { userAnalysisDto } from 'micro-dto';
+import { userAnalysisDto } from '@libs/v-dto';
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 export type UserDocument = HydratedDocument<User>;

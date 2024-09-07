@@ -1,43 +1,36 @@
 @serverUrl = https://mern-v-chat-server.onrender.com
-@localUrl = http://localhost:5001
+@localUrl = http://localhost:3003
 
-GET {{serverUrl}}
-###
-GET {{localUrl}}
 ###
 
-POST http://localhost:5001/api/auth/register
+POST {{localUrl}}/users/register
 Content-Type: application/json
 
 {
-  "username": "vinhngo",
+  "login": "vinhngo",
+  "email": "vinhtrungngo@yahoo.com",
   "password": "vinhngo1999",
-  "email": "vinhngotrung1999@gmail.com",
-  "fullname": "Ngô Trung Vinh"
+  "passwordRepeat": "vinhngo1999"
 }
 
 ###
 
-POST {{serverUrl}}/api/auth/login
+POST {{localUrl}}/users/login
 Content-Type: application/json
 
 {
-  "account": "vinhngo",
+  "login": "vinhngo",
   "password": "vinhngo1999"
 }
 
 ###
 
-POST http://localhost:5001/api/auth/activate-account
+GET {{localUrl}}/users/find-all
 Content-Type: application/json
 
-{
-  "active_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6Ik5nw7QgVHJ1bmcgVmluaCIsInVzZXJuYW1lIjoidmluaG5nbyIsImVtYWlsIjoidmluaG5nb3RydW5nMTk5OUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMiQ3bi9NLmgxRWxTT29adDZkQmpFM2RlTTlFZnZuUlBWOGxJUC90dGJLRTNGS1d4ZzAxU25zaSIsImlhdCI6MTY3MDEzOTUwMiwiZXhwIjoxNjcwMTM5ODAyfQ.6hAeA7T-meLg6QbwJnTN__F1CWeopb_WvClut1c_6wI"
-}
-
 ###
-POST http://localhost:5001/api/auth/refresh-token
-
+GET {{localUrl}}/users/find-one/66dc0361cff26fe86b399a9d
+Content-Type:  application/json
 ###
 
 PATCH http://localhost:5002/api/user

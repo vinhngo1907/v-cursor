@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersHelper } from './users.helper';
-import { messageAnalysisDto, userAnalysisDto, userDto, WebLoginParamDto, WebRegistrationParamDto, WebUserDto } from '@libs/v-dto';
+import { FindAllDto, FindByIdDto, FindByIdsDto, messageAnalysisDto, userAnalysisDto, userDto, WebLoginParamDto, WebRegistrationParamDto, WebUserDto, WebUsersAllDto } from '@libs/v-dto';
 import { UsersRepoService } from '../users-repo/users-repo.service';
 import { saveAnalysisDto } from 'src/dto/index.dto';
 
@@ -84,7 +84,7 @@ export class UsersService {
         return user;
     }
 
-    async registratiion(registerDto: WebRegistrationParamDto): Promise<WebUserDto> {
+    async registration(registerDto: WebRegistrationParamDto): Promise<WebUserDto> {
         const { password, salt } = await this.usersHelper.generatePassword(
             registerDto.password,
         );
@@ -98,5 +98,34 @@ export class UsersService {
                 created_at: new Date(),
             });
         return { id, login, email, active, created_at };
+    }
+
+    async findAll(param: FindAllDto): Promise<WebUsersAllDto | undefined> {
+        const usersList = await this.usersRepoService.findAll(param);
+        usersList.users = usersList.users.map((u: userDto) => {
+            const { id, email, login, active, created_at } = u;
+            return { id, email, login, active, created_at };
+        });
+
+        return usersList;
+    }
+
+    async findById(param: FindByIdDto): Promise<WebUserDto | undefined> {
+        const user = await this.usersRepoService.findActiveUser(param);
+        if (!user) {
+            return;
+        }
+        const { id, login, email, active, created_at } = user;
+        return { id, login, email, active, created_at };
+    }
+
+    async findByIds(param: FindByIdsDto): Promise<WebUsersAllDto | undefined> {
+        const usersList = await this.usersRepoService.findByIds(param);
+        usersList.users = usersList.users.map((u: userDto) => {
+            const { id, email, login, active, created_at } = u;
+            return { id, email, login, active, created_at };
+        });
+
+        return usersList;
     }
 }

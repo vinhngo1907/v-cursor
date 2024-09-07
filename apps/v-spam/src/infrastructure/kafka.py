@@ -3,11 +3,9 @@ from kafka import KafkaConsumer
 from kafka import KafkaProducer
 
 def getKafkaConsumer(config):
-    print(">>>>>", config)
     return KafkaConsumer(
         config["KAFKA_READY_MESSAGE_TOPIC"],
-        # bootstrap_servers=[config["KAFKA_URI"]],
-        bootstrap_servers=['127.0.0.1:9092'],
+        bootstrap_servers=[config["KAFKA_URI"]],
         api_version=(0,10),
         group_id=config["KAFKA_READY_MESSAGE_GROUP"],
         security_protocol='SSL',  # Use 'SASL_SSL' for encrypted communication

@@ -4,8 +4,8 @@ from dotenv import dotenv_values
 
 def getConfig():
     config = {
-        **dotenv_values("./config/.env.dev"),  # load shared development variables
-        **dotenv_values("./config/.env.prod"),  # load sensitive variables
+        **dotenv_values("./config/.env"),  # load shared development variables
+        # **dotenv_values("./config/.env.prod"),  # load sensitive variables
         **os.environ,  # override loaded values with environment variables
     }
 

@@ -10,7 +10,6 @@ export class KafkaController implements OnModuleInit, OnModuleDestroy {
 	constructor(
 		private configService: ConfigService,
 		private messagesService: MessagesService,
-
 	) { }
 
 	private readonly logger = new Logger(KafkaController.name);
@@ -20,23 +19,39 @@ export class KafkaController implements OnModuleInit, OnModuleDestroy {
 		brokers: [this.configService.get<string>('KAFKA_URI')]
 	});
 
+	private readonly producer: Producer = this.kafka.producer();
+
+	private readonly consumer: Consumer = this.kafka.consumer({
+		groupId: this.configService.get<string>('KAFKA_RAW_MESSAGE_GROUP'),
+	});
+
 	private readonly analysisConsumer: Consumer = this.kafka.consumer({
 		groupId: this.configService.get<string>('KAFKA_ANALYSIS_MESSAGE_GROUP'),
 	});
 
-	private readonly producer: Producer = this.kafka.producer();
 
 	async onModuleInit() {
 		try {
+			await this.producer.connect();
+
+			await this.consumer.connect();
+
 			await this.analysisConsumer.subscribe({
 				topic: this.configService.get<string>('KAFKA_ANALYSIS_MESSAGE_TOPIC'),
 				fromBeginning: true,
 			});
+
+			await this.consumer.run({
+				eachMessage: async ({ topic, partition, message }) => {
+					this.receiveMessage(message);
+				}
+			});
+
 			await this.analysisConsumer.run({
 				eachMessage: async ({ topic, partition, message }) => {
 					this.receiveAnalysis(message)
 				}
-			})
+			});
 		} catch (error) {
 			this.logger.error(error);
 		}
@@ -44,6 +59,8 @@ export class KafkaController implements OnModuleInit, OnModuleDestroy {
 
 	async onModuleDestroy() {
 		try {
+			await this.producer.disconnect();
+			await this.consumer.disconnect();
 			await this.analysisConsumer.disconnect();
 		} catch (error) {
 			this.logger.error(error);

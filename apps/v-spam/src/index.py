@@ -1,6 +1,10 @@
 from infrastructure.config import getConfig
 from spam_module.spam_service import SpamService
 from infrastructure.kafka import getKafkaConsumer, getKafkaProducer
+import six
+import sys
+if sys.version_info >= (3, 12, 0):
+    sys.modules['kafka.vendor.six.moves'] = six.moves
 
 
 def main():

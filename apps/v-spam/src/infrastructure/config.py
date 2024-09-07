@@ -11,6 +11,9 @@ def getConfig():
 
     return {
         "KAFKA_URI": config["KAFKA_URI"],
+        "KAFKA_MECHANISM": config["KAFKA_MECHANISM"],
+        "KAFKA_USER": config["KAFKA_USER"],
+        "KAFKA_PASS": config["KAFKA_PASS"],
         "KAFKA_READY_MESSAGE_TOPIC": config.get("KAFKA_READY_MESSAGE_TOPIC"),
         "KAFKA_READY_MESSAGE_GROUP": config.get("KAFKA_READY_MESSAGE_GROUP"),
         "KAFKA_ANALYSIS_MESSAGE_TOPIC": config.get("KAFKA_ANALYSIS_MESSAGE_TOPIC"),

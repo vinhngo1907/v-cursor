@@ -3,13 +3,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MessagesModule } from './modules/messages/messages.module';
 import { MessagesRepoModule } from './modules/messages-repo/messages-repo.module';
+import { join } from 'path';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             envFilePath: [
                 // __dirname + '/../config/.env.prod',
-                __dirname + '/../config/.env.dev',
+                `config/.env`,
             ],
             isGlobal: true,
         }),

@@ -3,3 +3,4 @@ six
 python-dotenv
 joblib
 pandas
+tensorflow=2.12.1

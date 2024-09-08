@@ -1,6 +1,11 @@
 from infrastructure import getConfig
 from toxic_module.toxic_service import ToxicService
 from infrastructure.kafka import getKafkaConsumer, getKafkaProducer
+import six
+import sys
+if sys.version_info >= (3, 12, 0):
+    sys.modules['kafka.vendor.six.moves'] = six.moves
+
 
 
 def main():

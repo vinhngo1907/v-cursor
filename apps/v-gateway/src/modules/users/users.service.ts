@@ -7,7 +7,7 @@ import { HttpService } from '@nestjs/axios';
 export class UsersService {
     constructor(
         private configService: ConfigService,
-        private httpService: HttpService
+        private user: HttpService
     ){}
 
     async getUser(): Promise<any> {

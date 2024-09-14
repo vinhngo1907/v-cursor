@@ -14,17 +14,14 @@ Content-Type: application/json
 
 {
   "login": "vinhngo",
-  "password": "vinhngo199"
+  "password": "vinhngo1999"
 }
 
 ###
 
-POST {{serverUrl}}/auth/activate-account
+GET {{serverUrl}}/users/find-all
 Content-Type: application/json
-
-{
-  "active_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6Ik5nw7QgVHJ1bmcgVmluaCIsInVzZXJuYW1lIjoidmluaG5nbyIsImVtYWlsIjoidmluaG5nb3RydW5nMTk5OUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMiQ3bi9NLmgxRWxTT29adDZkQmpFM2RlTTlFZnZuUlBWOGxJUC90dGJLRTNGS1d4ZzAxU25zaSIsImlhdCI6MTY3MDEzOTUwMiwiZXhwIjoxNjcwMTM5ODAyfQ.6hAeA7T-meLg6QbwJnTN__F1CWeopb_WvClut1c_6wI"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZGMwMzYxY2ZmMjZmZTg2YjM5OWE5ZCIsImxvZ2luIjoidmluaG5nbyIsImVtYWlsIjoidmluaHRydW5nbmdvQHlhaG9vLmNvbSIsImFjdGl2ZSI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjQtMDktMDdUMDc6NDA6MTcuOTcxWiIsImlhdCI6MTcyNjMxNjEzNywiZXhwIjoxNzI2MzE2MTk3fQ.4-jhns5_nUxvm8HSmYHlqFEdF2v4l5UtHQKvByoqUCw
 
 ###
 

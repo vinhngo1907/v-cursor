@@ -1,18 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
+import { ApiProperty } from '@nestjs/swagger';
 
-describe('AuthService', () => {
-  let service: AuthService;
+export class WebAccessTokens {
+	@ApiProperty({ description: 'JWT access', nullable: false })
+	accessToken: string;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
-    }).compile();
-
-    service = module.get<AuthService>(AuthService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
+	@ApiProperty({ description: 'JWT refresh', nullable: false })
+	refreshToken: string;
+}

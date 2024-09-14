@@ -1,15 +1,19 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "nest-api.fullname" . }}
-  labels:
-    {{- include "nest-api.labels" . | nindent 4 }}
-spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
-      protocol: TCP
-      name: http
-  selector:
-    {{- include "nest-api.selectorLabels" . | nindent 4 }}
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { PassportStrategy } from '@nestjs/passport';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+	constructor(private configService: ConfigService) {
+		super({
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			ignoreExpiration: false,
+			secretOrKey: configService.get<string>('JWT_SECRET'),
+		});
+	}
+
+	async validate(payload: any) {
+		return payload;
+	}
+}

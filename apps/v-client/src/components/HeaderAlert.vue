@@ -6,15 +6,23 @@ defineProps<{ msg: string }>()
 const count = ref(0)
 </script>
 
-<template>
-  <h1>{{ msg }}</h1>
+export default {
+  data: function(){
+    const headerAlertStore = useHeaderAlertStore();
+    return {
+      headerAlertStore: headerAlertStore,
+    }
+  }
+}
 
-  <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
+<template>
+  <v-alert
+    v-if="Boolean(headerAlertStore.success)"
+    icon="mdi-alert-circle-outline"
+    variant="outlined"
+    color="success"
+    title="Success"
+  >
   </div>
 
   <p>

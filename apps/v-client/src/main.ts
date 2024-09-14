@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-import App from "./App.vue";
+import App from "./App.vue"
 
 import router from "./router";
 
@@ -17,10 +17,11 @@ const vuetify = createVuetify({
     directives,
 });
 
-
 const app = createApp(App);
 app.config.errorHandler = (error, vm, info) => {
     console.log("error", error, "info", info);
 };
+app.use(createPinia());
+app.use(router);
 app.use(vuetify);
 app.mount("#app");

@@ -19,7 +19,7 @@ export const registerUser = async (param: any) => {
     return data;
 }
 
-export const getListsUser = async(param: usersListQueryDto):Promise<userListDto> => {
+export const getUsersList = async(param: usersListQueryDto):Promise<userListDto> => {
     const url = new URL('/users/find-all', apiGatewayUrl);
   Object.entries(param).forEach(([ key, value ]) => url.searchParams.append(key, value?.toString()));
 

@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
-import { PrivateRoomQueryDto, RoomDataDto } from '@libs/v-dto';
+import { FindByIdsDto, PrivateRoomQueryDto, RoomDataDto, WebUsersAllDto } from '@libs/v-dto';
 @Injectable()
 export class MessagesRepo {
     constructor(
@@ -29,7 +29,7 @@ export class MessagesRepo {
         }
     }
 
-    async userRequest(method: string, url: string, param?: any) {
+    async usersRequest(method: string, url: string, param?: any) {
         try {
             const uri = `${this.configService.get<string>('API_USERS')}${url}`;
             const response = await this.httpService.axiosRef?.[method](uri, param);
@@ -52,5 +52,13 @@ export class MessagesRepo {
         let url = `/messages/get-private-room?${searchParam.toString()}`;
 
         return await this.messagesRequest('get', url);
+    }
+
+    async getUsersByIds(param: FindByIdsDto): Promise<WebUsersAllDto> {
+        const { ids } = param;
+        const searchParam = new URLSearchParams(ids.map((id) => ['ids', id]));
+        let url = `/users/find-by-ids?${searchParam.toString()}`;
+
+        return await this.usersRequest('get', url);
     }
 }

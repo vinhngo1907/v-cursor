@@ -31,7 +31,7 @@ export class UsersRepo {
         }
     }
 
-    private async findAll(param: FindAllDto): Promise<WebUsersAllDto> {
+    async findAll(param: FindAllDto): Promise<WebUsersAllDto> {
         const searchParam = new URLSearchParams(Object.entries(param).map((p) => p),);
         let url = `users/find-all?${searchParam.toString()}`;
         return this.usersRequest('get', url);

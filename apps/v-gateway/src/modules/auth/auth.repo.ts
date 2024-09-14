@@ -19,7 +19,7 @@ export class AuthRepo {
 			return response.data;
 		} catch (error) {
 			if (error.response?.data?.statusCode == 400) {
-				throw new BadRequestException(error.response.dat.message);
+				throw new BadRequestException(error.response.data.message);
 			}
 			throw new InternalServerErrorException(
 				error.response?.data?.message || this.errorMessage

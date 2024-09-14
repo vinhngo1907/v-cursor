@@ -24,7 +24,5 @@ import { UsersRepoModule } from './modules/users-repo/users-repo.module';
 		UsersRepoModule,
 		UsersModule,
 	],
-	controllers: [],
-	providers: [],
 })
 export class AppModule { }

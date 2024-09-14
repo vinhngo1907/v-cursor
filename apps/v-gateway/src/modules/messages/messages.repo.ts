@@ -31,7 +31,7 @@ export class MessagesRepo {
 
     async usersRequest(method: string, url: string, param?: any) {
         try {
-            const uri = `${this.configService.get<string>('API_USERS')}${url}`;
+            const uri = `${this.configService.get<string>('API_USERS')}/${url}`;
             const response = await this.httpService.axiosRef?.[method](uri, param);
             return response.data;
         } catch (error) {

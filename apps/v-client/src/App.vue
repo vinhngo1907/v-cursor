@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import HeaderAlert from "./components/HeaderAlert.vue";
 </script>
 
 <template>

@@ -1,18 +1,40 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
+import { FindByIdDto, WebLoginParamDto, WebRegistrationParamDto, WebUserDto } from "@libs/v-dto";
+import { HttpService } from "@nestjs/axios";
+import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
-describe('AuthController', () => {
-  let controller: AuthController;
+@Injectable()
+export class AuthRepo {
+	constructor(
+		private configService: ConfigService,
+		private readonly httpService: HttpService,
+	) { }
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
-    }).compile();
+	errorMessage: string = 'Oops something wrong';
 
-    controller = module.get<AuthController>(AuthController);
-  });
+	private async usersRequest(method: string, url: string, param?: any) {
+		try {
+			const uri = `${this.configService.get<string>('API_USERS')}${url}`;
+			const response = await this.httpService.axiosRef?.[method](uri, param);
+			return response.data;
+		} catch (error) {
+			if (error.response?.data?.statusCode == 400) {
+				throw new BadRequestException(error.response.dat.message);
+			}
+			throw new InternalServerErrorException(
+				error.response?.data?.message || this.errorMessage
+			)
+		}
+	}
+	async login(param: WebLoginParamDto): Promise<WebUserDto> {
+		return await this.usersRequest('post', '/users/login', param);
+	}
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-});
+	async registration(param: WebRegistrationParamDto): Promise<WebUserDto> {
+		return await this.usersRequest('post', '/users/register', param);
+	}
+
+	async findUserById(param: FindByIdDto): Promise<WebUserDto> {
+		return await this.usersRequest('get', `/users/find-one/${param.id}`);
+	}
+}

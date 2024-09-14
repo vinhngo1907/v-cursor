@@ -1,35 +1,55 @@
-<script setup lang="ts">
+<script lang="ts">
+import SideMenu from "./components/SideMenu.vue";
 import HeaderAlert from "./components/HeaderAlert.vue";
 import { useHeaderAlertStore } from "./stores/header-alert";
 
+export default {
+  data: () => ({
+    toggle: true,
+  }),
+  methods: {
+    toggleDrawer() {
+      this.toggle = !this.toggle;
+    },
+  },
+  components: { SideMenu, HeaderAlert },
+  errorCaptured(error: any) {
+    const headerAlertStore = useHeaderAlertStore();
+    headerAlertStore.setError(error);
+    if (error.response?.status === 401) {
+      this.$router.push({ name: "login" });
+    }
+  },
+};
 </script>
 
 <template>
-<v-app>
-<!-- header -->
-<!-- side menu -->
-</v-app>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-</template>
+  <v-app>
+    <!-- header -->
+    <v-app-bar>
+      <v-app-bar-nav-icon
+        variant="text"
+        @click.stop="toggleDrawer"
+      ></v-app-bar-nav-icon>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+      <v-btn icon>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <!-- side menu -->
+    <SideMenu v-model="toggle"></SideMenu>
+
+    <!--  content -->
+    <v-main>
+      <v-container>
+        <HeaderAlert></HeaderAlert>
+        <RouterView />
+      </v-container>
+    </v-main>
+  </v-app>
+</template>

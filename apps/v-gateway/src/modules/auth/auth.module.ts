@@ -22,9 +22,10 @@ import { RefreshTokenStrategy } from 'src/infrastructure/jwt/strategy/jwt.refres
 				},
 			}),
 		}),
-		HttpModule],
-		providers: [AuthService, ConfigService, AuthRepo, JwtStrategy, RefreshTokenStrategy],
-		controllers: [AuthController],
-		exports: [AuthService, JwtModule],
+		HttpModule,
+	],
+	providers: [AuthService, ConfigService, AuthRepo, JwtStrategy, RefreshTokenStrategy],
+	controllers: [AuthController],
+	exports: [AuthService, JwtModule],
 })
 export class AuthModule { }

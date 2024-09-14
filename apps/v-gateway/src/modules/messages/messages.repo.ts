@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Subscriber } from "./messages.joi";
+import { Subscriber } from "../../../../v-client/src/dto/messages.joi";
 import { ObjectId } from 'mongodb';
-import { CreateSubscriberDto } from './messages.dto';
+import { CreateSubscriberDto } from '../../../../v-client/src/dto/messages';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 @Injectable()

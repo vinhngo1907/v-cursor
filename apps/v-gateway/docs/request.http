@@ -1,0 +1,35 @@
+@serverUrl = https://mern-v-chat-server.onrender.com
+@localUrl = http://localhost:3000
+
+GET {{serverUrl}}
+###
+GET {{localUrl}}
+###
+
+GET {{localUrl}}/users/get-private-room?userIds=1
+Content-Type: application/json
+
+###
+
+POST {{serverUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "account": "vinhngo",
+  "password": "vinhngo1999"
+}
+
+###
+
+POST {{localUrl}}/auth/activate-account
+Content-Type: application/json
+
+{
+  "active_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6Ik5nw7QgVHJ1bmcgVmluaCIsInVzZXJuYW1lIjoidmluaG5nbyIsImVtYWlsIjoidmluaG5nb3RydW5nMTk5OUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMiQ3bi9NLmgxRWxTT29adDZkQmpFM2RlTTlFZnZuUlBWOGxJUC90dGJLRTNGS1d4ZzAxU25zaSIsImlhdCI6MTY3MDEzOTUwMiwiZXhwIjoxNjcwMTM5ODAyfQ.6hAeA7T-meLg6QbwJnTN__F1CWeopb_WvClut1c_6wI"
+}
+
+###
+
+GET http://localhost:5001/api/message
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhjNGYwODkyYjI3YjdlZTA2YzFiN2YiLCJpYXQiOjE2NzE5NDAxMjUsImV4cCI6MTY3MjAyNjUyNX0.WSgHayf2X66DM4u2AZtf5saiifvfjW7Qx_f8bwfxATA
+###

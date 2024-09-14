@@ -7,11 +7,15 @@ import {
     OnModuleDestroy,
 } from '@nestjs/common';
 import {
+    ConnectedSocket,
+    MessageBody,
+    SubscribeMessage,
     WebSocketGateway,
     WebSocketServer,
 } from '@nestjs/websockets';
 import { MessagesService } from './messages.service';
 import { MessageWebDto } from '@libs/v-dto';
+import { JwtSocketGuard } from 'src/infrastructure/jwt/guard/jwt-socket.guard';
 
 @WebSocketGateway()
 export class MessagesGateway implements OnModuleInit, OnModuleDestroy {
@@ -37,6 +41,11 @@ export class MessagesGateway implements OnModuleInit, OnModuleDestroy {
             this.kafka = new Kafka({
                 clientId: 'api-gateway',
                 brokers: [this.configService.get<string>('KAFKA_URI')],
+                sasl: {
+                    mechanism: this.configService.get<string>('KAFKA_MECHANISM'),
+                    username: this.configService.get<string>('KAFKA_USER'),
+                    password: this.configService.get<string>('KAFKA_PASS'),
+                } as any,
             });
 
             // Initialize producer and consumer
@@ -55,6 +64,11 @@ export class MessagesGateway implements OnModuleInit, OnModuleDestroy {
                 fromBeginning: true,
             });
 
+            await this.consumer.run({
+                eachMessage: async ({ topic, partition, message }) => {
+                    this.receiveReadyMessage(message);
+                },
+            });
         } catch (error) {
             this.logger.error(error);
         }
@@ -68,5 +82,65 @@ export class MessagesGateway implements OnModuleInit, OnModuleDestroy {
         } catch (error) {
             this.logger.error(error);
         }
-    }    
+    }
+
+    receiveReadyMessage(kafkaMessage: KafkaMessage) {
+        try {
+            const messageValue: MessageWebDto = JSON.parse(kafkaMessage.value.toString());
+            this.server.to(messageValue.room_id).emit('message', messageValue);
+        } catch (error) {
+            this.logger.error(error);
+        }
+    }
+
+    @UseGuards(JwtSocketGuard)
+    @SubscribeMessage('message')
+    async onMessage(@ConnectedSocket() client: any, @MessageBody() data: any) {
+        try {
+            const { uuid, message, room_id } = data;
+            const { id: userId } = client.handshake.user;
+            const rawMessage: MessageWebDto = {
+                uuid,
+                message,
+                room_id,
+                user_id: userId,
+                created_at: new Date(),
+            };
+            await this.producer.send({
+                topic: this.configService.get<string>('KAFKA_RAW_TOPIC'),
+                messages: [
+                    { key: room_id, value: JSON.stringify(rawMessage), },
+                ],
+            });
+        } catch (error) {
+            this.logger.error(error);
+        }
+    }
+
+    @UseGuards(JwtSocketGuard)
+    @SubscribeMessage('joinPrivateRoom')
+    async joinPrivateRoom(@ConnectedSocket() client: any, @MessageBody() data: any) {
+        try {
+            const { userId: secondId } = data;
+            const { id: currentId } = client.handshake.user;
+            const roomData = await this.messagesService.getPrivateRoom({
+                userIds: [secondId, currentId]
+            });
+
+            const roomUsers = await this.messagesService.getUsersByIds({
+                ids: [secondId, currentId]
+            });
+
+            const roomId = roomData?.room?.id;
+
+            client.join(roomId);
+            client.emit('joinPrivateRoom', {
+                users: roomUsers?.users,
+                room: roomData?.room,
+                messages: roomData?.messages
+            });
+        } catch (error) {
+            this.logger.error(error);
+        }
+    }
 }

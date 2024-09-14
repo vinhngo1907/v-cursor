@@ -1,18 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
+import * as Joi from 'joi';
 
-describe('UsersService', () => {
-    let service: UsersService;
+export const findByIdJoi = Joi.object({
+    id: Joi.string().length(24).required(),
+});
 
-    beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
-            providers: [UsersService],
-        }).compile();
-
-        service = module.get<UsersService>(UsersService);
-    });
-
-    it('should be defined', () => {
-        expect(service).toBeDefined();
-    });
+export const findAllJoi = Joi.object({
+    excludeIds: Joi.alternatives().try(
+        Joi.array().items(Joi.string()),
+        Joi.string(),
+    ),
+    login: Joi.string().min(3).max(100),
+    skip: Joi.number().min(0),
+    limit: Joi.number().min(1).max(100),
+    sortField: Joi.string().valid(...['id', 'login']),
+    sortAsc: Joi.string().valid(...['asc', 'desc']),
 });

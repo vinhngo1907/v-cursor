@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import HeaderAlert from "./components/HeaderAlert.vue";
+import { useHeaderAlertStore } from "./stores/header-alert";
+
 </script>
 
 <template>
+<v-app>
+<!-- header -->
+<!-- side menu -->
+</v-app>
   <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
@@ -11,7 +17,6 @@ import HeaderAlert from "./components/HeaderAlert.vue";
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>

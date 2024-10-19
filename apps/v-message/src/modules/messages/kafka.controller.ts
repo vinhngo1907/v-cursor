@@ -41,6 +41,11 @@ export class KafkaController implements OnModuleInit, OnModuleDestroy {
 
 			await this.consumer.connect();
 
+			await this.consumer.subscribe({
+				topic: this.configService.get<string>('KAFKA_RAW_MESSAGE_TOPIC'),
+				fromBeginning: true,
+			});
+
 			await this.analysisConsumer.subscribe({
 				topic: this.configService.get<string>('KAFKA_ANALYSIS_MESSAGE_TOPIC'),
 				fromBeginning: true,
@@ -85,6 +90,7 @@ export class KafkaController implements OnModuleInit, OnModuleDestroy {
 	async receiveMessage(params: KafkaMessage) {
 		try {
 			const messageValue = JSON.parse(params.value.toString());
+			console.log({messageValue})
 			const { uuid, message, room_id, user_id, created_at } = messageValue;
 			const readyMessage: MessageWebDto = await this.messagesService.receiveMessage({
 				uuid, message, room_id, user_id, created_at

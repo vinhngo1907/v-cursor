@@ -31,4 +31,4 @@ lerna-debug.log*
 *.sublime-workspace
 .env
 
-*.http
+docs/*.http

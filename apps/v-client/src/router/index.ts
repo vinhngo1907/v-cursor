@@ -23,6 +23,11 @@ const router = createRouter({
             name: "discussions",
             component: () => import("../views/Discussions.vue"),
         },
+        {
+            path: "/chat-private/:userId",
+            name: "chat-private",
+            component: () => import("../views/ChatPrivateView.vue"),
+          },
     ]
 });
 

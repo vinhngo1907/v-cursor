@@ -1,0 +1,30 @@
+@localUrl = http://localhost:3003
+@userUrl=http://localhost:3002
+@messageUrl=http://localhost:3003
+@gatewayUrl=http://localhost:3000
+###
+
+POST {{gatewayUrl}}/auth/registration
+Content-Type: application/json
+
+{
+  "login": "poseidon-v",
+  "email": "poseidon@v.com",
+  "password": "vinhngo1999",
+  "passwordRepeat": "vinhngo1999"
+}
+
+###
+
+POST {{gatewayUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "login": "vinhngo",
+  "password": "vinhngo1999"
+}
+
+###
+GET {{gatewayUrl}}/users/find-all
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZGMwMzYxY2ZmMjZmZTg2YjM5OWE5ZCIsImxvZ2luIjoidmluaG5nbyIsImVtYWlsIjoidmluaHRydW5nbmdvQHlhaG9vLmNvbSIsImFjdGl2ZSI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjQtMDktMDdUMDc6NDA6MTcuOTcxWiIsImlhdCI6MTcyOTMzMTg0MiwiZXhwIjoxNzI5NDE4MjQyfQ.boAwVUiRUB9jb4H5IZC999Npf2Ol4AxxVultln9zlYg

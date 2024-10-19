@@ -26,7 +26,7 @@ export default {
         usersById,
     }),
 
-    async amounted() {
+    async mounted() {
         try {
             this.socket.on("exception", async (error: any) => {
                 try {
@@ -37,7 +37,7 @@ export default {
                         }
                         this.sendMessage(undefined);
                     } else {
-                        throw error
+                        throw error;
                     }
                 } catch (err: any) {
                     headerAlertStore.setError(err);
@@ -46,6 +46,52 @@ export default {
                     }
                 }
             });
+
+            this.socket.on("connect", () => {
+                this.joinRoom();
+            });
+
+            this.socket.on("joinPrivateRoom", (data) => {
+                this.roomId = data.room.id;
+                this.usersById = data.users.reduce((acc: { [key: string]: userDto }, user: userDto) => {
+                    acc[user.id] = user;
+                    return acc;
+                }, {});
+
+                this.messages = data.messages.map(({ uuid, user_id, message, created_at }: messageDto) => ({
+                    uuid,
+                    user_id,
+                    message,
+                    created_at,
+                    login: this.usersById[user_id]?.login,
+                }));
+                this.scrollDown();
+            });
+
+            this.socket.on("message", (data) => {
+                const { uuid, user_id, message, created_at, } = data;
+                this.messages.push({
+                    uuid,
+                    user_id,
+                    message,
+                    created_at,
+                    login: this.usersById[user_id]?.login,
+                });
+
+                if (uuid === this.uuid) {
+                    this.loading = false;
+                    this.disabled = false;
+                    this.message = '';
+                }
+
+                this.scrollDown();
+            });
+
+            this.socket.on("disconnect", () => {
+                console.log("Disconnected");
+            });
+
+
         } catch (error) {
             headerAlertStore.setError(error);
         }
@@ -56,17 +102,19 @@ export default {
     methods: {
         sendMessage(event: any | undefined) {
             event?.preventDefault();
+
             if (this.message) {
-                this.loading != true;
+                this.loading = true;
                 this.disabled = true;
                 this.uuid = uuidv4();
                 this.socket?.emit("message", {
                     token: authStore.accessToken,
                     message: this.message,
                     uuid: this.uuid,
-                    room_id: this.roomId
+                    room_id: this.roomId,
                 });
             }
+
         },
         joinRoom() {
             this.socket.emit("joinPrivateRoom", {

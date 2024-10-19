@@ -106,6 +106,9 @@ export class MessagesGateway implements OnModuleInit, OnModuleDestroy {
                 user_id: userId,
                 created_at: new Date(),
             };
+            console.log(">>>>>",  this.configService.get<string>('KAFKA_RAW_MESSAGE_TOPIC'))
+            console.log({ key: room_id, value: JSON.stringify(rawMessage), });
+
             await this.producer.send({
                 topic: this.configService.get<string>('KAFKA_RAW_MESSAGE_TOPIC'),
                 messages: [

@@ -16,7 +16,7 @@ export class MessagesRepo {
 
     async messagesRequest(method: string, url: string, param?: any) {
         try {
-            const uri = `${this.configService.get<string>('API_MESSAGES')}${url}`;
+            const uri = `${this.configService.get<string>('API_MESSAGES')}/${url}`;
             const response = await this.httpService.axiosRef?.[method](uri, param);
             return response.data;
         } catch (error) {
@@ -49,7 +49,7 @@ export class MessagesRepo {
         const searchParam = new URLSearchParams(
             userIds.map((id) => ['userIds', id]),
         );
-        let url = `/messages/get-private-room?${searchParam.toString()}`;
+        let url = `messages/get-private-room?${searchParam.toString()}`;
 
         return await this.messagesRequest('get', url);
     }
@@ -57,8 +57,7 @@ export class MessagesRepo {
     async getUsersByIds(param: FindByIdsDto): Promise<WebUsersAllDto> {
         const { ids } = param;
         const searchParam = new URLSearchParams(ids.map((id) => ['ids', id]));
-        let url = `/users/find-by-ids?${searchParam.toString()}`;
-
+        let url = `users/find-by-ids?${searchParam.toString()}`;
         return await this.usersRequest('get', url);
     }
 }

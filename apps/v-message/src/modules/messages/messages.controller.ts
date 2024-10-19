@@ -5,19 +5,17 @@ import { JoiValidationPipe } from 'src/pipes/joi.validation.pipe';
 import { privateRoomQueryJoi } from './messages.joi';
 import { MessagesService } from './messages.service';
 
-@Controller('users')
-export class UsersController {
-    constructor(
-        private readonly messagesService: MessagesService
-    ) { }
-    
-    @Get("/get-private-room")
-    @ApiOperation({ summary: "Get user by id" })
-    @ApiTags("/Users")
+@Controller('messages')
+export class MessagesController {
+    constructor(private messagesService: MessagesService) { }
+
+    @Get('/get-private-room')
+    @ApiOperation({ summary: 'Get user by id' })
+    @ApiTags('Users')
     @ApiResponse({
         status: HttpStatus.OK,
-        description: "Status",
-        type: RoomDataDto
+        description: 'Success',
+        type: RoomDataDto,
     })
     @UsePipes(new JoiValidationPipe(privateRoomQueryJoi))
     getPrivateRoom(@Query() params: PrivateRoomQueryDto): Promise<RoomDataDto> {

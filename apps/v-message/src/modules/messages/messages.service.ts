@@ -1,9 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { messageAnalysisDto, PrivateRoomQueryDto, RoomDataDto } from '@libs/v-dto';
 import { MessageWebDto, RoomWebDto } from '@libs/v-dto';
 import { MessagesRepoService } from '../messages-repo/messages-repo.service';
-import { RoomDocument } from '../messages-repo/room.schema';
 
 @Injectable()
 export class MessagesService {

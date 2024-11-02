@@ -28,7 +28,7 @@
         "@nestjs/mapped-types": "*",
         "@nestjs/mongoose": "^9.2.1",
         "@nestjs/passport": "^9.0.0",
-        "@nestjs/platform-express": "^10.4.3",
+        "@nestjs/platform-express": "^10.4.6",
         "@nestjs/swagger": "^6.3.0",
         "express-basic-auth": "^1.2.1",
         "joi": "^17.7.0",

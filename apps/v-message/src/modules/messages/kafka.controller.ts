@@ -90,14 +90,14 @@ export class KafkaController implements OnModuleInit, OnModuleDestroy {
 	async receiveMessage(params: KafkaMessage) {
 		try {
 			const messageValue = JSON.parse(params.value.toString());
-			console.log({messageValue})
+			console.log("TEST MESS VALUE",{messageValue})
 			const { uuid, message, room_id, user_id, created_at } = messageValue;
 			const readyMessage: MessageWebDto = await this.messagesService.receiveMessage({
 				uuid, message, room_id, user_id, created_at
 			});
 
 			await this.producer.send({
-				topic: this.configService.get<string>('KAFA_READY_MESSAGE_TOPIC'),
+				topic: this.configService.get<string>('KAFKA_READY_MESSAGE_TOPIC'),
 				messages: [{
 					key: room_id,
 					value: JSON.stringify(readyMessage)

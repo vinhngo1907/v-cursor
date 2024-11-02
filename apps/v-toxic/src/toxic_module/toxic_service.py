@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 
 class ToxicService:
     empty_message = "Empty Message!"
-    model_path = "./src/toxic_module/toxic/toxic_model_lstm"
+    model_path = "./src/toxic_module/toxic_model_lstm"
 
     def __init__(self):
         self.model = load_model(self.model_path)

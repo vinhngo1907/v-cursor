@@ -11,16 +11,16 @@ services:
   #     - ./volume/mysql/data:/var/lib/mysql
   #     - ./volume/mysql/logs:/var/log/mysql
   kafka:
-    container_name: kafka_book_exchange
+    container_name: kafka_micro
     image: 'bitnami/kafka:latest'
     env_file:
-      - .env.prod
+      - .env
     ports:
       - '${KAFKA_PORT}:9092'
     volumes:
       - kafka_data:${KAFKA_DATA}
     networks:
-      - kafka_network
+      - micro_network
     restart: always
     environment:
       - BITNAMI_DEBUG=true
@@ -47,7 +47,7 @@ services:
       dockerfile: apps/v-user/Dockerfile
     working_dir: /home/node/app/v-user
     env_file:
-      - .env.prod
+      - .env
     volumes:
       - ./libs:/home/node/app/libs
       - ./:/home/node/app
@@ -62,7 +62,7 @@ services:
       dockerfile: apps/v-messages/Dockerfile
     working_dir: /home/node/app/v-messages
     env_file:
-      - .env.prod
+      - .env
     volumes:
       - ./libs:/home/node/app/libs
       - ./:/home/node/app
@@ -77,6 +77,13 @@ services:
       dockerfile: apps/v-spam
     working_dir: /home/node/app/v-spam
     env_file:
-      - .env.prod
+      - .env
     volumes:
       - ./:/home/node/app
+
+networks:
+  micro_network:
+    # driver: bridge
+
+volumes:
+  kafka_data:

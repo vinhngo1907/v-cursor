@@ -53,6 +53,7 @@ export class KafkaController implements OnModuleInit, OnModuleDestroy {
 
 			await this.consumer.run({
 				eachMessage: async ({ topic, partition, message }) => {
+					console.log("KAFKA_RAW_MESSAGE_TOPIC",{topic, partition, message})
 					this.receiveMessage(message);
 				}
 			});

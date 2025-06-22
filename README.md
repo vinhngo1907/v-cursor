@@ -1,36 +1,19 @@
-# Nestjs Monorepo Boilerplate
+## Microservices for Chat System.
 
-Check
+Message service provides functionality for messages in application, this service contains all messages and chat rooms. I use Nest.js for backend, Mongo database and Kafka as message broker.
 
-- [monorepo docs](https://docs.nestjs.com/cli/monorepo)
-- [contributing manual](./CONTRIBUTING.md)
+Full code - [link](https://github.com/vinhngo1907/v-cursor)
 
-| Statements                                                                                 | Branches                                                                       | Functions                                                                           | Lines                                                                           |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| ![Statements](https://img.shields.io/badge/statements-92.67%25-brightgreen.svg?style=flat) | ![Branches](https://img.shields.io/badge/branches-64.94%25-red.svg?style=flat) | ![Functions](https://img.shields.io/badge/functions-88.09%25-yellow.svg?style=flat) | ![Lines](https://img.shields.io/badge/lines-91.5%25-brightgreen.svg?style=flat) |
----
+### Whole scheme:
 
-#### Prerequisite
+![Containers](./docs/img/v-micro.png)
 
-- Node: 14 => <= 16
-- Docker
-- npm install -g commitizen
-- npm install -g changelog
-- https://stedolan.github.io/jq/download/
+Short description:
 
-#### Instalation
-
-- install monorepo dependencies
-  ```bash
-  $ yarn monorepo:install
-  ```
-- install project dependencies
-  ```bash
-  $ yarn workspace <workspaceName> install
-  ```
-- install lib on project
-  ```bash
-  $ yarn workspace <workspaceName> add <libName>
-  ```
-
----
+- User opens front-end application in web browser and joins chat room, front-end emits an event to the api gateway by socket.io.
+- Api gateway gets chat data from the message service by http request and emits this to the front-end.
+- For the messaging, front end service communicates with api gateway by socket.io.
+- Api gateway implements publish-subscribe pattern to emit raw message events for listeners, through kafka message broker.
+- Message service receives raw message events, saves messages and emits events with saved messages.
+- Api gateway receives saved messages and emits this to the front-end application.
+- Also message service subscribes to analysis events from spam and toxic services, and saves analises for the messages.

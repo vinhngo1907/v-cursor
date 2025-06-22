@@ -6,7 +6,7 @@ Full code - [link](https://github.com/vinhngo1907/v-cursor)
 
 ### Whole scheme:
 
-![Containers](./docs/img/v-micro.png)
+![Containers](./docs/v-micro.png)
 
 Short description:
 
